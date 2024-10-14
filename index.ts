@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 // Enrutador
 app.use('/Pizzas', PizzaRoutes);
 
-const PORT = process.env.PORT || 7777;
+const PORT = process.env.PORT || 10000;
 connectDB().then(() => {
     app.listen(PORT, () => {
         console.log('Escuchando en puerto:', PORT);
