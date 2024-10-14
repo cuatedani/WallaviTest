@@ -1,12 +1,29 @@
-export interface IPizza {
-    pizzaId: string;
-    name: string;
-    price: string;
-    favorites: boolean;
-    ingredients: string[];
-    active: boolean;
-  }
+import mongoose, { Schema, Document } from 'mongoose';
+import getConexion from '../database/conection';
 
-  export type ICreatePizza = Omit<IPizza, "pizzaId">;
+interface IPizza extends Document {
+  name: string;
+  price: number;
+  ingredients: { ingredient: string }[];
+  favorite: boolean;
+  active: boolean;
+}
 
-  export type IUpdatePizza = ICreatePizza;
+const PizzaSchema: Schema = new Schema({
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+  ingredients: [
+    {
+      _id: false,
+      ingredient: { type: String, required: true },
+    }
+  ],
+  favorite: { type: Boolean, default: false },
+  active: { type: Boolean, default: true },
+});
+
+const db = "APIPizzas";
+const connection = getConexion(db);
+const PizzaModel = connection.model<IPizza>("Pizzas", PizzaSchema);
+
+export default PizzaModel;
